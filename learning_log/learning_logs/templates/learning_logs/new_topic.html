@@ -2,13 +2,16 @@
 
 {% block content %}
 
-    <p>Adicione um novo tópico</p>
-
-    <form action="{% url 'new_topic'%}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Adicionar</button>
-    </form>
+    <p style="padding-left: 18px; padding-top: 15px; font-size: 20px;">Adicione um novo tópico:</p>
+    <div style="margin-left: 20px;">
+        <form action="{% url 'new_topic'%}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 14.2px; margin-left: 20px;" type="submit">Adicionar</button>
+        </form>
+    </div>
+    
 
 {% endblock content %}
 

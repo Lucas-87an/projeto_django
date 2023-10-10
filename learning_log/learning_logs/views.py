@@ -1,26 +1,36 @@
 from django.shortcuts import render
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     '''pagina principal do learning log'''
     return render(request, 'learning_logs/index.html')
 
+@login_required(login_url="login")
 def topics(request):
     '''mostra todos os assuntos'''
-    topics = Topic.objects.order_by('date_added')
+    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
     context = {'topics': topics }
     return render(request,'learning_logs/topics.html', context)
 
+@login_required(login_url="login")
 def topic(request, topic_id):
     '''mostra um unico assunto e todas as suas entradas'''
     topic = Topic.objects.get(id = topic_id)
+
+    # Garante que o assunto pertence ao usuario local
+    if topic.owner != request.user:
+        raise Http404
+
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries':entries}
     return render(request,'learning_logs/topic.html', context)
 
+@login_required(login_url="login")
 def new_topic(request):
     """adiciona um novo assunto"""
     if request.method != 'POST':
@@ -30,15 +40,21 @@ def new_topic(request):
         # Dados de POST submetidos/ processa os dados
         form = TopicForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_topic = form.save(commit= False)
+            new_topic.owner = request.user
+            new_topic.save() 
             return HttpResponseRedirect(reverse('topics'))
     context = {'form': form}
     return render(request,'learning_logs/new_topic.html', context)
 
-
+@login_required(login_url="login")
 def new_entry(request, topic_id):
     """acrescenta uma nova entrada pra um assunto em particular"""
     topic = Topic.objects.get(id =topic_id)
+
+    # Garante que o assunto pertence ao usuario local
+    if topic.owner != request.user:
+        raise Http404
 
     if request.method != 'POST':
         # nenhum dado submetido cria um formulario em branco
@@ -56,11 +72,15 @@ def new_entry(request, topic_id):
     context = {'topic':topic, 'form':form}
     return render(request, 'learning_logs/new_entry.html',context)
 
-
+@login_required(login_url="login")
 def edit_entry(request, entry_id):
     '''edita uma entrada especifica.'''
     entry = Entry.objects.get(id = entry_id)
     topic = entry.topic
+
+     # Garante que o assunto pertence ao usuario local
+    if topic.owner != request.user:
+        raise Http404
 
     if request.method != 'POST':
         # requisicao inicial preenche previmente o formulario com a entrada digital

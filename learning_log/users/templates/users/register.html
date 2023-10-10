@@ -1,0 +1,17 @@
+{% extends "learning_logs/base.html" %}
+
+
+{% block content %}
+    <div style="padding-top: 20px; margin-left: 20px;">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p}}
+    
+            <button class="btn btn-primary"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 14.2px; margin-left: 20px;" type="submit">Entrar</button>
+            <input type="hidden" name="next" value="{% url 'index' %}">
+        </form>
+    </div>
+    
+
+{% endblock content %}

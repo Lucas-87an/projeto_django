@@ -1,21 +1,34 @@
 {% extends "learning_logs/base.html" %}
 
+{% load static %}
+
 {% block content  %}
 
 
-    <p>Tópicos :</p>
-    <ul>
+    <p style="padding-left: 15px; padding-top: 8px; font-weight: bold; font-size: 20px;">Tópicos :</p>
+    <ul style="width: 300px ; margin-left: 12px;" >
         {% for topic in topics  %}
 
-        <li>
+        <li style="padding-top: 15px;">
             <a href="{% url 'topic' topic.id %}">{{topic}}</a>
         </li>
 
         {% empty %}
-            <li>não há topicos adicionados</li>
+            <li >não há topicos adicionados</li>
         {% endfor %}
     </ul>
 
-    <a href="{% url 'new_topic'%}">Adicionar novos topicos</a>
+    <div style="margin-top: 29px; margin-left: 20px;">
+        <a href="{% url 'new_topic'%}">Adicionar novos Tópicos</a>
+        <img src="{% static 'images/icons8-adicionar-96.png' %}" alt="icone add" width="35px" height="35px">
+    </div>
+   
+
+    <style>
+       a{
+        padding: 8px 5px 6px;
+        
+       }
+    </style>
 
 {% endblock content %}

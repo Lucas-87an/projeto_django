@@ -1,18 +1,18 @@
 {% extends "learning_logs/base.html" %}
-
+{% load static %}
 
 {% block content %}
 
-<p>Tópico : {{topic}}</p>
+<p style="padding-left: 30px; padding-top: 8px; font-weight: bold; font-size: 20px;">Tópico : {{topic}}</p>
 
-<p>Anotações:</p>
+<p style="padding-left: 30px; padding-top: 8px; font-weight: bold;" >Anotações:</p>
 
-<p>
-    <a href="{% url 'new_entry' topic.id %}">Adicione uma nova ANOTAçÄO</a>
-
+<p style="padding-left: 30px; padding-top: 8px; font-weight: bold;">
+    <a href="{% url 'new_entry' topic.id %}">Adicione uma nova Anotação</a>
+    <img src="{% static 'images/icons8-adicionar-96.png' %}" alt="icone add" width="35px" height="35px">
 </p>
 
-<ul>
+<ul style="width: 300px ; margin-left: 12px;">
     {% for entry in entries %}
 
         <li>
@@ -20,7 +20,8 @@
             <p>{{entry.text | linebreaks}}</p>
             <p>
                 <a href="{% url 'edit_entry' entry.id %}">Editar Anotacao</a>
-            </p>
+                <img src="{% static 'images/edit_1160515.png' %}" alt="icone edit" width="35px" height="35px">
+            </p> 
         </li>
 
         {% empty %}
@@ -32,5 +33,11 @@
     {% endfor %}
 
 </ul>
+<style>
+    a{
+        padding: 8px 5px 6px
+    }
+</style>
+
 
 {% endblock content %}

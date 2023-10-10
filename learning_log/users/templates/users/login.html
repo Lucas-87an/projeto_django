@@ -7,12 +7,16 @@
         <p>Seu login e senha estao incorretos. Por favor tente novamente</p>
     {% endif %}
 
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p}}
-
-        <button type="submit">Entrar</button>
-        <input type="hidden" name="next" value="{% url 'index' %}">
-    </form>
+    <div>
+        <form class="px-4 py-3" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p}}
+    
+            <button class="btn btn-primary"
+            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 14.2px;" type="submit">Entrar</button>
+            <input type="hidden" name="next" value="{% url 'index' %}">
+        </form>
+    </div>
+    
 
 {% endblock content %}

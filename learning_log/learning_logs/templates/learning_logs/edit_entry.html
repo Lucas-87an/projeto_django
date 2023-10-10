@@ -2,14 +2,18 @@
 
 {% block content %}
 
-<p><a href="{% url 'topic' topic.id %}">{{ topic }}</a></p>
+<p><a style="padding-left: 30px; padding-right: 30px; margin-left: 30px;"  href="{% url 'topic' topic.id %}">{{ topic }}</a></p>
 
-<p>Editar anotacao:</p>
+<p style="padding-left: 30px;">Editar anotação:</p>
 
-<form action="{% url 'edit_entry' entry.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">Salvar</button>
-</form>
+<div style="margin-left: 20px;">
+    <form action="{% url 'edit_entry' entry.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary"
+        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 14.2px;" type="submit">Salvar</button>
+    </form>
+</div>
+
 
 {% endblock content %}
